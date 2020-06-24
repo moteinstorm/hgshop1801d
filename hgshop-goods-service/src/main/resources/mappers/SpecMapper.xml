@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.bawei.hgshop.dao.SpecDao">
+
+	<resultMap type="spec" id="SpecMap">
+		<id column="id" property="id"/>
+		<collection property="options" column="id" select="queryOptions"></collection>
+	</resultMap>
+	
+	<select id="queryOptions" resultType="SpecOption">
+		SELECT * FROM hg_spec_option WHERE spec_id=#{value}
+	</select>
+
+	<!-- int addSpec(Spec spec); -->
+	<insert id="addSpec" useGeneratedKeys="true" keyColumn="id" keyProperty="id">
+		INSERT INTO hg_spec(spec_name) VALUES(#{specName})
+	</insert>
+	
+	<!-- 	int delOptions(int ...ids); -->
+	<delete id="delOptions">
+		DELETE FROM hg_spec_option WHERE spec_id in 
+		<foreach collection="array" open="(" close=")" separator="," item="id">#{id}</foreach>
+	</delete>
+
+	<!-- 	int delSpec(int[] ids); -->
+	<delete id="delSpec">
+		DELETE FROM hg_spec WHERE id in 
+		<foreach collection="array" open="(" close=")" separator="," item="id">#{id}</foreach>
+	</delete>
+
+	<!-- 	int update(Spec spec);  -->
+	<update id="update">
+		UPDATE hg_spec SET spec_name = #{specName}
+			WHERE id=${id}
+	</update>
+	
+	<!-- 
+		int addOption(SpecOption specOption);
+ 	-->
+ 	<insert id="addOption">
+ 		INSERT INTO hg_spec_option(option_name,spec_id,orders) VALUES(#{optionName},#{specId},#{orders})
+ 	</insert>
+ 	
+	<!-- List<Spec> list(Spec spec); -->
+	<select id="list" resultMap="SpecMap">
+		SELECT * FROM hg_spec 
+		<where>
+			<if test="specName!=null and specName!='' ">
+				AND spec_name like concat('%',#{specName},'%')
+			</if>
+		</where>
+	</select>
+	
+	<!-- Spec findById(int id); -->
+	<select id="findById" resultMap="SpecMap">
+		SELECT * FROM hg_spec  WHERE id=#{value}
+	</select>
+</mapper> 
