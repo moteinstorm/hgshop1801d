@@ -22,8 +22,8 @@ public class BrandController {
 	public String list(HttpServletRequest request) {
 		List<Brand> list = bs.list();
 		list.forEach(x->{System.out.println("x is " + x);});
-		return "list";
-		
+		request.setAttribute("list", list); 
+		return "brand/list";
 	}
 	
 }

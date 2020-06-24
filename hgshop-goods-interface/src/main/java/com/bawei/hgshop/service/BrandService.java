@@ -8,7 +8,7 @@ import com.github.pagehelper.PageInfo;
 /**
  * 品牌的管理
  * @author 45466
- *
+ * 
  */
 public interface BrandService {
 	

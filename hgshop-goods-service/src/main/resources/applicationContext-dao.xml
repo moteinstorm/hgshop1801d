@@ -47,5 +47,7 @@
 		<!-- basePackage :mapper接口所在的包    必须修改 -->
 		<property name="basePackage" value="com.bawei.hgshop.dao" />
 	</bean>
+	
+	
 
 </beans>
