@@ -57,6 +57,40 @@ public class SpecController {
 		return "spec/add";
 	}
 	
+	@RequestMapping("del")
+	@ResponseBody
+	public String del(HttpServletRequest request,@RequestParam(value = "ids[]")  int[] ids) {
+		System.out.print("ids is " + ids);
+		return specService.delete(ids)>0?"ok":"failed";
+	}
+	
+	/**
+	 * 跳转到修改的jsp页面
+	 * @param request
+	 * @param id
+	 * @return
+	 */
+	@RequestMapping("toUpdate")
+	public String toUpdate(HttpServletRequest request,int id) {
+		Spec spec = specService.getById(id);
+		request.setAttribute("spec", spec);
+		return "spec/update";
+	}
+	
+	
+	/**
+	 * 
+	 * @param request
+	 * @param spec
+	 * @return
+	 */
+	@RequestMapping("update")
+	@ResponseBody
+	public String update(HttpServletRequest request,Spec spec) {
+		
+		return specService.update(spec)>0?"ok":"failed";
+	}
+	
 	/**
 	 * 列表
 	 * @param request

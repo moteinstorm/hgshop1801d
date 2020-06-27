@@ -1,12 +1,14 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>    
 <div class="container">
 	<form action="" id="specForm">
 		
 		<div class="form-group row">
+			<input type="hidden" id="specId" name="id" value="${spec.id}">
 		    <label for="specName" class="col-sm-2 col-form-label">规格名称</label>
 		    <div class="col-sm-4">
-		      <input type="text" class="form-control" id="specName" name="specName">
+		      <input type="text" class="form-control" id="specName" name="specName" value="${spec.specName}">
 		    </div>
 		 </div>
 		 <div class="form-group row">
@@ -19,11 +21,14 @@
 		 			<td>显示顺序</td>
 		 			<td><button type="button" onclick="addLine()">添加</button></td>
 		 		</tr>
-		 		<tr>
-		 			<td><input name="options[0].optionName"></td>
-		 			<td><input type="number" name="options[0].orders"></td>
-		 			<td><button type="button" onclick="removeLine($(this))">删除</button></td>
-		 		</tr>
+	 			<c:forEach items="${spec.options}" var="op" varStatus="index">
+	 			<tr>
+	 				<td><input name="options[${index.index}].optionName" value="${op.optionName}"></td>
+	 				<td><input type="number" name="options[${index.index}].orders" value="${op.orders}"></td>
+	 				<td><button type="button" onclick="removeLine($(this))">删除</button></td>
+	 			</tr>
+	 			</c:forEach>
+		 		
 		 	</table>
 		 	</div>
 		 </div>
@@ -34,15 +39,13 @@
 </div>
 
 <script>
-	var index=1;
+	var index=parseInt("${spec.options.size()}");
 	function addLine(){
-		$("#table").append(`
-				<tr>
+		$("#table").append(`<tr>
 	 			<td><input name="options[`+index+`].optionName"></td>
 	 			<td><input type="number" name="options[`+index+`].orders"></td>
 	 			<td><button onclick="removeLine($(this))">删除</button></td>
-	 		</tr>
-				`)
+	 		</tr>`)
 			index++	
 	}
 	
@@ -53,18 +56,18 @@
 	function commitData(){
 		// 得到需要提交的数据
 		var formData = new FormData($('#specForm')[0]);
-		$.ajax({url:'./spec/add',
+		$.ajax({url:'./spec/update',
 			  type:'post',
 			  processData:false,
 			  contentType:false,
 			  data:formData,
 			  success:function(data){
-				  if(data=='ok'){
-						alert('添加成功')
-						$("#workContent").load('./spec/list');
-					}else{
-						alert('添加失败')
-					}
+				if(data=='ok'){
+					alert('修改成功')
+					$("#workContent").load('./spec/list');
+				}else{
+					alert('修改失败')
+				}
 			  }
 	      })//end ajax
 	}
