@@ -19,8 +19,8 @@
 			WHERE id=#{id}
 	</update>
 	<!-- int delete(int id); -->
-	<delete id=" delete">
-		DELETE FROM hg_category WHREE id=#{value}
+	<delete id="delete">
+		DELETE FROM hg_category WHERE id=#{value}
 	</delete>
 	
 	<!-- int list(int parentId); -->
