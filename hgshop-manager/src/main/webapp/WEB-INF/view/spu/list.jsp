@@ -60,9 +60,9 @@
 	 				<td>${spu.category.name}</td>
 	 				<td><img src="/pic/${spu.smallPic}" width="40" height="40"></td>
 	 				<td>
-	 					<button type="button" class="btn btn-danger btn-sm">Danger</button>
-						<button type="button" class="btn btn-warning btn-sm">Warning</button>
-						<button type="button" class="btn btn-info btn-sm">Info</button>
+	 					<button type="button" class="btn btn-danger btn-sm" onclick="del(${spu.id})">删除</button>
+						<button type="button" class="btn btn-warning btn-sm" onclick="toUpdate(${spu.id})">修改</button>
+						<button type="button" class="btn btn-info btn-sm">添加SKU</button>
 	 				</td>
 	 			</tr>
 	 		</c:forEach>
@@ -73,7 +73,13 @@
 		  <ul class="pagination">
 		    <li class="page-item"><a class="page-link" href="#">首页</a></li>
 		    <c:forEach begin="1" end="${pageInfo.pages}" var="page">
-		   	 	<li class="page-item"><a class="page-link" href="javascript:void(0)" onclick="query(${page})">${page}</a></li>
+		    	<c:if test="${page==pageInfo.pageNum}">
+		   	 		<li class="page-item"><a class="page-link" href="javascript:void(0)" ><font color="red">${page}</font> </a></li>
+		    	</c:if>
+		    	<c:if test="${page!=pageInfo.pageNum}">
+		   	 		<li class="page-item"><a class="page-link" href="javascript:void(0)" onclick="query(${page})">${page}</a></li>
+		    	</c:if>
+		    
 		    </c:forEach>
 		    <li class="page-item"><a class="page-link" href="#">尾页</a></li>
 		  </ul>
@@ -87,10 +93,34 @@
 		$("#workContent").load('./spu/toadd');
 	}
 	
+	//删除
+	function del(id){
+		
+		if(!confirm('确认删除么？'))
+			return;
+		
+		var ids=new Array();
+		ids.push(id);
+		$.post('./spu/del',{ids:ids},function(data){
+			if(data=='ok'){
+				alert('删除成功')
+				//刷新
+				query("${pageInfo.pageNum}")
+			}else{
+				alert('删除失败')
+			}
+			
+		})
+	}
+	
+	//去修改
+	function toUpdate(id){
+		$("#workContent").load('./spu/toUpdate',{id:id});
+	}
+	
 
 	//查询
 	function query(page){
-		
 		var query = $("#queryForm").serialize();
 		$("#workContent").load('./spu/list?pageNum='+page,query);
 				

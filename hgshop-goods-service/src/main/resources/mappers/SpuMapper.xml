@@ -15,7 +15,7 @@
 	</insert>
 	<!-- int update(Spu spu); -->
 	<update id="update">
-		UPDATE hg_spu SET  goods_name=#{goodsName},is_marketable#{isMarketable},brand_id=#{brandId},
+		UPDATE hg_spu SET  goods_name=#{goodsName},is_marketable=#{isMarketable},brand_id=#{brandId},
 				caption=#{caption},category_id=#{categoryId},small_pic=#{smallPic} 
 		    WHERE id=#{id}
 	</update>

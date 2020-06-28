@@ -9,16 +9,18 @@
 <div class="container-fluid">
 	<form action="" id="spuForm">	
 		<div class="form-group row">
+			
 		    <label for="goodsName" class="col-sm-2 col-form-label">名称</label>
 		    <div class="col-sm-4">
-		      <input type="text" class="form-control" id="goodsName" name="goodsName">
+		    <input type="hidden" class="form-control" id="spuId" name="id" value="${spu.id}">	
+		      <input type="text" class="form-control" id="goodsName" name="goodsName" value="${spu.goodsName}">
 		    </div>
 		 </div>
 		 <div class="form-group row">
 		 	<label for="isMarketable" class="col-sm-2 col-form-label">上架</label>
 		   <select name="isMarketable" id="isMarketable">
-		   	 <option value="1">在售</option>
-		   	 <option value="0">下架</option>
+		   	 <option value="1" ${spu.isMarketable==1?'checked':''}>在售</option>
+		   	 <option value="0" ${spu.isMarketable==0?'checked':''} >下架</option>
 		   </select>	 
 		 </div>
 		 
@@ -26,8 +28,8 @@
 		    <label for="goodsName" class="col-sm-2 col-form-label">分类</label>
 		    
 		    <div class="col-sm-4">
-		      <input type="hidden" name="categoryId" id="categoryId">	
-		      <input type="button" id="catName" class="form-control" onclick="seleCategory()">
+		      <input type="hidden" name="categoryId" id="categoryId" value="${spu.categoryId}">	
+		      <input type="button" id="catName" class="form-control" value="${spu.category.name}" onclick="seleCategory()">
 		    </div>
 		 </div>
 		  <div class="form-group row" >
@@ -40,7 +42,7 @@
 		 <div class="form-group row">
 		    <label for="caption" class="col-sm-2 col-form-label">标题</label>
 		    <div class="col-sm-4">
-		      <input type="text" class="form-control" id="caption" name="caption">
+		      <input type="text" class="form-control" id="caption" name="caption" value="${spu.caption}">
 		    </div>
 		 </div>
 		 
@@ -50,7 +52,7 @@
 		      <select name="brandId">
 		      	<option value="0">--请选择--</option>
 				<c:forEach items="${brandList}" var="brand">
-					<option value="${brand.id}">${brand.name}</option>
+					<option value="${brand.id}" ${spu.brandId==brand.id?'selected':''}>${brand.name}</option>
 				</c:forEach>
 		      </select>
 		    </div>
@@ -78,18 +80,18 @@
 		
 		var formData = new FormData($("#spuForm")[0]);
 		$.ajax({
-			url:'./spu/add',
+			url:'./spu/update',
 			 type:'post',
 			data:formData,
 			contentType:false,
 			processData:false,
 			success:function(data){
 				if(data=='ok'){
-					alert('添加成功')
+					alert('修改成功')
 					//刷新
 					$("#workContent").load('./spu/list');
 				}else{
-					alert('添加失败')
+					alert('修改失败')
 				}
 			}
 			
