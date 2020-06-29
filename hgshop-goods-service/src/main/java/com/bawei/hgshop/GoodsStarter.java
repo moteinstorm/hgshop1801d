@@ -9,7 +9,7 @@ import org.springframework.context.support.ClassPathXmlApplicationContext;
  * @author 45466
  *
  */
-public class GoodsStarter {
+public class GoodsStarter { 
 	
 	public static void main(String[] args) throws IOException {
 		System.out.println("商品服务启动开始。。。");

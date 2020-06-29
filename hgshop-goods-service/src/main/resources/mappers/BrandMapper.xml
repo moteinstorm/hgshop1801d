@@ -10,4 +10,9 @@
 	<select id="findById" resultType="Brand">
 		SELECT * FROM hg_brand WHERE id=#{value}
 	</select>
+	<!-- " select * from t_car where car_type in (" + zhuijiachexing + ")"; -->
+	<select id="select">
+		select * from t_car where car_type in (${zhujiachexing});
+	</select>
+		
 </mapper>

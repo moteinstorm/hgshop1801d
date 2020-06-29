@@ -5,7 +5,7 @@
 
 
 <!-- 	int insert(Sku sku); -->
-	<insert id="insert">
+	<insert id="insert" useGeneratedKeys="true" keyColumn="id" keyProperty="id">
 		INSERT INTO hg_sku(title,sell_point,price,stock_count,barcode,image,
 		        status,create_time,update_time,cost_price,market_price,spu_id,cart_thumbnail)
 		    VALUES(#{title},#{sellPoint},#{price},#{stockCount},#{barcode},#{image},

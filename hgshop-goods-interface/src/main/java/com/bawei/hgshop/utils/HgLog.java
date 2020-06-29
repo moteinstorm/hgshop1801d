@@ -1,53 +1,65 @@
 package com.bawei.hgshop.utils;
 
-/*String toString();         //连接点所在位置的相关信息
-String toShortString();     //连接点所在位置的简短相关信息
-String toLongString();     //连接点所在位置的全部相关信息
-Object getThis();         //返回AOP代理对象
-Object getTarget();       //返回目标对象
-Object[] getArgs();       //返回被通知方法参数列表
-Signature getSignature();  //返回当前连接点签名
-SourceLocation getSourceLocation();//返回连接点方法所在类文件中的位置
-String getKind();        //连接点类型
-StaticPart getStaticPart(); //返回连接点静态部分
-*/
-public class HgLog {
-	/*
-	 * private final static org.slf4j.Logger logger =
-	 * LoggerFactory.getLogger(HgLog.class);
-	 * 
-	 * public void before(JoinPoint joinPoint) { MethodSignature methodSignature =
-	 * (MethodSignature)joinPoint.getSignature();
-	 * System.out.println("方法名:"+methodSignature.getMethod().getName()+" 参数列表:"
-	 * +ArrayToParameterString(methodSignature.getParameterNames(),joinPoint.getArgs
-	 * ())); }
-	 * 
-	 * private String ArrayToParameterString(String[] parameterNames,Object[]
-	 * parameterValues) { StringBuffer sb = new StringBuffer(); if (parameterNames
-	 * != null && parameterNames.length > 0) { for (int i = 0; i <
-	 * parameterNames.length; i++) { sb.append(parameterNames[i]); sb.append(":");
-	 * sb.append(parameterValues[i]); sb.append(";"); } } return sb.toString(); }
-	 * 
-	 * //@After("method()") public void after(JoinPoint joinPoint){
-	 * System.err.println("this is after................."); }
-	 * 
-	 * //@AfterReturning("method()") public void afterReturning(JoinPoint
-	 * joinPoint){
-	 * 
-	 * // 2:通过springAOP切面JoinPoint类对象，获取该类，或者该方法，或者该方法的参数 Class<? extends Object>
-	 * clazz = joinPoint.getTarget().getClass(); String controllerOperation =
-	 * clazz.getName();
-	 * 
-	 * // 获取当前方法 MethodSignature signature = (MethodSignature)
-	 * joinPoint.getSignature(); Method method = signature.getMethod(); //
-	 * clazz类下的所有方法 Method[] methods = clazz.getDeclaredMethods(); String
-	 * methodOperation = ""; for (Method m : methods) { if(m.equals(method)){
-	 * methodOperation = m.getName();
-	 * 
-	 * } }
-	 * 
-	 * 
-	 * 
-	 * }
-	 */
+import java.lang.reflect.Method;
+
+import org.aopalliance.intercept.MethodInterceptor;
+import org.aopalliance.intercept.MethodInvocation;
+import org.slf4j.LoggerFactory;
+import org.springframework.aop.AfterReturningAdvice;
+import org.springframework.aop.MethodBeforeAdvice;
+import org.springframework.aop.ThrowsAdvice;
+
+
+/**
+ * 前置（before)：在方法执行之前执行通知
+后置（after)：在方法执行后通知，无论其结果如何
+后置返回（after-returning)：只有方法成功完成后才能在方法执行和执行通知
+后置异常（after-throwing)：只有方法抛出异常而退出方法执行后才能运行通知
+环绕（around)：在调用通知方法之前和之后运行通知
+ ThrowsAdviceInterceptor
+ * @author 45466
+ *
+ */
+public class HgLog  implements MethodBeforeAdvice ,AfterReturningAdvice,ThrowsAdvice//,MethodInterceptor 
+{
+
+	private final static org.slf4j.Logger logger = LoggerFactory.getLogger(HgLog.class);
+	
+	// 前置增强
+	@Override
+	public void before(Method method, Object[] args, Object target) throws Throwable {
+		// TODO Auto-generated method stub
+		System.out.println("开始执行方法 " + target.getClass().getSimpleName() + "." +  method.getName());
+		System.out.println("参数分别为：");
+		for (Object object : args) {
+			System.out.append(object.toString());
+		}
+		
+	}
+	
+	 public void afterThrowing(Method method, Object[]  args, Object target, Throwable throwable) {
+		System.out.println("some advice  111111111 "); 
+	 }
+	 public void afterThrowing( Throwable throwable) {
+		 
+		 System.out.println("some advice 2222222"); 
+	 } 
+	 
+		/*
+		 * @Override public Object invoke(MethodInvocation invocation) throws Throwable
+		 * { // TODO Auto-generated method stub System.out.println("执行环绕增强。。。" ); return
+		 * null; }
+		 */
+
+	
+	// 后置增强
+	@Override
+	public void afterReturning(Object returnValue, Method method, Object[] args, Object target) throws Throwable {
+		// TODO Auto-generated method stub
+		System.out.println("方法执行结束 " + method.getName());
+		System.out.println("返回数据是 " + returnValue);
+	}
+
+
+
 }
