@@ -7,6 +7,17 @@
   </parent>
          <!-- 开始拷贝的位置 -->
   <dependencies>
+  	  <!-- <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-aspects</artifactId>
+         
+        </dependency>
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-aop</artifactId>
+           
+    </dependency> -->
+    
 		<dependency>
 			<groupId>com.github.pagehelper</groupId>
 			<artifactId>pagehelper</artifactId>

@@ -55,4 +55,9 @@
 	<select id="findById" resultMap="SpecMap">
 		SELECT * FROM hg_spec  WHERE id=#{value}
 	</select>
+	
+	<select id="listAll" resultType="spec">
+		SELECT * FROM hg_spec ORDER BY spec_name ASC
+	</select>
+	
 </mapper> 

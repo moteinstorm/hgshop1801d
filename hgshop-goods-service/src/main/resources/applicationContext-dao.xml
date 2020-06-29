@@ -41,7 +41,39 @@
 		<!-- 必须修改 xxxxxx-->
 		<property name="typeAliasesPackage" value="com.bawei.hgshop.pojo"/>
 	</bean>
+	
+		<!--5、 配置jdbc事务管理器 -->
+	<bean id="transactionManager"
+		class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+		<property name="dataSource" ref="dataSource"></property>
+	</bean>
 
+	<!--6. 配置事务 transaction-manager:表示关联的事务管理器是谁 -->
+	<tx:advice transaction-manager="transactionManager"
+		id="txAdvice">
+		<!-- 事务属性配置 -->
+		<tx:attributes>
+			<!-- 以find.select get开头的方法为只读事务，用来提高数据库的性能 -->
+			<tx:method name="find*" read-only="true" />
+			<tx:method name="select*" read-only="true" />
+			<tx:method name="get*" read-only="true" />
+			<tx:method name="load*" read-only="true" />
+			<tx:method name="list*" read-only="true" />
+			<!-- 其他的方法为默认事务 -->
+			<tx:method name="*" propagation="REQUIRED" />
+		</tx:attributes>
+	</tx:advice>
+	
+	<!-- 7、配置aop -->
+	<aop:config>
+		<!-- 配置切点表达式 -->
+		<aop:pointcut
+			expression="execution(* com.bawei.hgshop.service.impl.*.*(..))"
+			id="pointcut" />
+		<!-- 关联事务 -->
+		<aop:advisor advice-ref="txAdvice" pointcut-ref="pointcut" />
+	</aop:config>
+	
 	<!--8 扫描mapper -->
 	<bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
 		<!-- basePackage :mapper接口所在的包    必须修改 -->

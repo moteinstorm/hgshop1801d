@@ -62,7 +62,7 @@
 	 				<td>
 	 					<button type="button" class="btn btn-danger btn-sm" onclick="del(${spu.id})">删除</button>
 						<button type="button" class="btn btn-warning btn-sm" onclick="toUpdate(${spu.id})">修改</button>
-						<button type="button" class="btn btn-info btn-sm">添加SKU</button>
+						<button type="button" class="btn btn-info btn-sm" onclick="toAddSku(${spu.id})">添加SKU</button>
 	 				</td>
 	 			</tr>
 	 		</c:forEach>
@@ -124,6 +124,10 @@
 		var query = $("#queryForm").serialize();
 		$("#workContent").load('./spu/list?pageNum='+page,query);
 				
+	}
+	
+	function toAddSku(spuid){
+		$("#workContent").load('./sku/toAdd',{spuId:spuid});
 	}
 </script>
   

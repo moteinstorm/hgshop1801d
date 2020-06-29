@@ -14,6 +14,18 @@
 
 	<!-- <context:property-placeholder location="classpath:hgshop.properties" /> -->
 	
+	<!-- 配置日志 -->
+	<!-- <bean id="controllerAspect" class="com.bawei.hgshop.utils.HgLog">
+    </bean>
+    <aop:config>
+        <aop:aspect ref="controllerAspect">
+            <aop:pointcut id="controlPointcut" expression="execution(* com.bawei.hgshop.service.impl.*.*(..))"></aop:pointcut>
+            <aop:before method="before" pointcut-ref="controlPointcut"></aop:before>
+            <aop:after  method="after"   pointcut-ref="controlPointcut"></aop:after>
+        </aop:aspect>
+    </aop:config>
+     -->
+	
 	<!-- 应用程序 -->
 	<dubbo:application name="hgshop-goods-service" >
 		<!-- 解决22222端口  22222端口为了防止网络扰动 -->
