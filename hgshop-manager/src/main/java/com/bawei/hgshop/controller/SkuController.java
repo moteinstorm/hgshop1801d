@@ -20,6 +20,7 @@ import com.bawei.hgshop.pojo.Spu;
 import com.bawei.hgshop.service.SkuService;
 import com.bawei.hgshop.service.SpecService;
 import com.bawei.hgshop.service.SpuService;
+import com.github.pagehelper.PageInfo;
 
 @Controller
 @RequestMapping("sku")
@@ -44,6 +45,11 @@ public class SkuController {
 	
 	@RequestMapping("list")
 	public String list(HttpServletRequest request,SkuVo skuVo) {
+		
+		PageInfo<Sku> pageInfo = skuService.list(skuVo);
+		
+		request.setAttribute("pageInfo", pageInfo);
+		request.setAttribute("skuVo", skuVo);
 		
 		return "sku/list";
 	}

@@ -2,7 +2,11 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.bawei.hgshop.dao.SkuDao">
 
-
+	<resultMap type="sku" id="SkuMap">
+		<id column="id" property="id"></id>
+		<association property="spu" column="spu_id" select="com.bawei.hgshop.dao.SpuDao.findById"></association>
+	</resultMap>
+	
 
 <!-- 	int insert(Sku sku); -->
 	<insert id="insert" useGeneratedKeys="true" keyColumn="id" keyProperty="id">
@@ -50,7 +54,22 @@
 		WHERE id=#{id}
 	</update>
 	<!-- Sku findById(int id); -->
-	<!-- List<Sku> list(SkuVo skuvo); -->
+	<!-- List<Sku> list(SkuVo skuvo);  greater than  ; less than  -->
+	<select id="list" resultMap="SkuMap">
+		SELECT * FROM hg_sku
+		<where>
+			<if test="key!=null and key!=''">
+				AND (title LIKE CONCAT('%',#{key},'%') OR sell_point  LIKE CONCAT('%',#{key},'%') )
+			</if>
+			<if test="minPrice!=null and minPrice!=0 ">
+				AND price &gt;= #{minPrice}
+			</if>
+			<if test="maxPrice!=null and maxPrice!=0 ">
+				AND price &lt;= #{maxPrice}
+			</if>
+		</where>
+		ORDER BY id DESC
+	</select>
 	
 </mapper>
 

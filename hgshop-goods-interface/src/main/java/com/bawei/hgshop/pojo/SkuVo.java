@@ -1,5 +1,7 @@
 package com.bawei.hgshop.pojo;
 
+import java.math.BigDecimal;
+
 public class SkuVo  extends Sku{
 	
 	/**
@@ -12,6 +14,28 @@ public class SkuVo  extends Sku{
 	
 	//查询的关键字 只要name 或者 caption 当中有一个字段匹配即可
 	String key;
+	
+	//价格区间
+	BigDecimal minPrice;
+	
+	BigDecimal maxPrice;
+	
+
+	public BigDecimal getMinPrice() {
+		return minPrice;
+	}
+
+	public void setMinPrice(BigDecimal minPrice) {
+		this.minPrice = minPrice;
+	}
+
+	public BigDecimal getMaxPrice() {
+		return maxPrice;
+	}
+
+	public void setMaxPrice(BigDecimal maxPrice) {
+		this.maxPrice = maxPrice;
+	}
 
 	public int getPageNum() {
 		return pageNum;
