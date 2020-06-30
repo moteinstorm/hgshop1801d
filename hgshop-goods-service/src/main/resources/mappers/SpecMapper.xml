@@ -60,4 +60,8 @@
 		SELECT * FROM hg_spec ORDER BY spec_name ASC
 	</select>
 	
+	<select id="listOptionByskuId" resultType="SpecOption">
+		SELECT spec_option_id AS id ,spec_id as specId FROM hg_sku_spec WHERE sku_id=#{value}
+	</select>
+	
 </mapper> 

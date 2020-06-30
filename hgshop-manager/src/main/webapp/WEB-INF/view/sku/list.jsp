@@ -45,13 +45,14 @@
 	 				<td>${sku.price}</td>
 	 				<td><img src="/pic/${sku.image}" width="40" height="40"></td>
 	 				<td>
-	 					<button type="button" class="btn btn-danger btn-sm" onclick="del(${spu.id})">删除</button>
-						<button type="button" class="btn btn-warning btn-sm" onclick="toUpdate(${spu.id})">修改</button>
+	 					<button type="button" class="btn btn-danger btn-sm" onclick="del(${sku.id})">删除</button>
+						<button type="button" class="btn btn-warning btn-sm" onclick="toUpdate(${sku.id})">修改</button>
 	 				</td>
 	 			</tr>
 	 		</c:forEach>
 	 	</table>
 	 </div>
+	 
 	 <div>
 	 	<nav aria-label="Page navigation example">
 		  <ul class="pagination">
@@ -85,7 +86,7 @@
 		
 		var ids=new Array();
 		ids.push(id);
-		$.post('./spu/del',{ids:ids},function(data){
+		$.post('./sku/del',{ids:ids},function(data){
 			if(data=='ok'){
 				alert('删除成功')
 				//刷新
@@ -99,7 +100,8 @@
 	
 	//去修改
 	function toUpdate(id){
-		$("#workContent").load('./spu/toUpdate',{id:id});
+		
+		$("#workContent").load('./sku/toUpdate',{id:id});
 	}
 	
 

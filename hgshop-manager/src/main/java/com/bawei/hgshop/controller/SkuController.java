@@ -98,6 +98,48 @@ public class SkuController {
 		return skuService.add(sku)>0?"ok":"failed";
 	}
 	
+	@RequestMapping("toUpdate")
+	public String toUpdate(HttpServletRequest request,int id ) {
+		
+		//
+		Sku sku = skuService.getById(id);
+		request.setAttribute("sku", sku);
+		
+		// 获取规格
+		List<Spec> specList = specService.listAll();
+		request.setAttribute("specList", specList);
+		
+		return "sku/update";
+	}
+	
+	/**
+	 * 添加sku
+	 * @param request
+	 * @param sku
+	 * @return
+	 */
+	@RequestMapping("update")
+	@ResponseBody
+	public String update(HttpServletRequest request,Sku sku,
+			@RequestParam("imageFile") MultipartFile imageFile,
+			@RequestParam("cartThumbnailFile") MultipartFile cartThumbnailFile ) {
+		List<SpecOption> list = sku.getOptions();
+		//数据清零一下
+		 for (int i = list.size()-1; i >=0; i--) {
+			SpecOption option = list.get(i);
+			if(null == option.getSpecId() || 0==option.getSpecId()) {
+				list.remove(i);
+			}
+		}
+		// 处理图片
+		 sku.setImage(fileUtils.upload(imageFile)); 
+		 sku.setCartThumbnail(fileUtils.upload(cartThumbnailFile)); 
+		 
+		return skuService.update(sku)>0?"ok":"failed";
+	}
+	
+	
+	
 	/**
 	 * 获取一个规格的所有属性
 	 * @param specId
@@ -110,6 +152,15 @@ public class SkuController {
 		if(spec==null)
 			return null;
 		return spec.getOptions();
+	}
+	
+
+	@RequestMapping("del")
+	@ResponseBody
+	public String del(HttpServletRequest request,@RequestParam("ids[]") int[] ids) {
+		
+		return skuService.delete(ids)>0?"ok":"failed";
+		
 	}
 
 }

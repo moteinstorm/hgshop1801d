@@ -6,6 +6,10 @@
 		<id column="id" property="id"></id>
 		<association property="spu" column="spu_id" select="com.bawei.hgshop.dao.SpuDao.findById"></association>
 	</resultMap>
+	<!-- 继承即可 -->
+	<resultMap type="sku" id="SkuMapDetail" extends="SkuMap">
+		<collection property="options" column="id" select="com.bawei.hgshop.dao.SpecDao.listOptionByskuId"></collection>
+	</resultMap>
 	
 
 <!-- 	int insert(Sku sku); -->
@@ -53,7 +57,12 @@
 		</if>
 		WHERE id=#{id}
 	</update>
+	
 	<!-- Sku findById(int id); -->
+	<select id="findById" resultMap="SkuMapDetail">
+		SELECT * FROM hg_sku WHERE id=#{value}
+	</select>
+	
 	<!-- List<Sku> list(SkuVo skuvo);  greater than  ; less than  -->
 	<select id="list" resultMap="SkuMap">
 		SELECT * FROM hg_sku

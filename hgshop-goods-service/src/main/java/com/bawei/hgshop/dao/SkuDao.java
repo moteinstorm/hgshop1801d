@@ -24,6 +24,7 @@ public interface SkuDao {
 
 	int update(Sku sku);	
 
+	// 获取详情进行回显
 	Sku findById(int id);
 	List<Sku> list(SkuVo skuvo);
 
