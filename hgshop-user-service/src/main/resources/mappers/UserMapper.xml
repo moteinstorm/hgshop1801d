@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.bawei.hgshop.dao.UserDao">
+	
+	<!-- User findUserById(Integer uid); -->
+	<select id="findUserById" resultType="user">
+		SELECT uid,username,password,name FROM hg_user 
+		   WHERE uid=#{value}
+	</select>
+
+	<!-- 	int add(User user); -->
+	<insert id="add" useGeneratedKeys="true" keyColumn="uid" keyProperty="uid">
+		INSERT INTO hg_user(username,password,name)
+			VALUES(#{username},#{password},#{name})	
+	</insert>
+	
+	<!-- User findUser(User user); -->
+	<select id="findUser" resultType="user">
+		SELECT uid,username,password,name FROM hg_user 
+		   WHERE username=#{username} AND password=#{password}
+	</select>
+
+ 	<!-- User findByName(String name); -->
+ 	<select id="findByName" resultType="user">
+		SELECT uid,username,password,name FROM hg_user 
+		   WHERE username=#{value}
+	</select>
+	
+</mapper>

@@ -183,5 +183,10 @@
   		<artifactId>hgshop-user-interface</artifactId>
   		<version>0.0.1-SNAPSHOT</version>
   	</dependency>
+  	<dependency>
+  		<groupId>com.bawei.hgshop</groupId>
+  		<artifactId>hgshop-goods-interface</artifactId>
+  		<version>0.0.1-SNAPSHOT</version>
+  	</dependency>
   </dependencies>
 </project>
