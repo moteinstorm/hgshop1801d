@@ -28,7 +28,7 @@
 		      		
 		      	</tr>
 		      	<tr>
-		      		<td><select name="options[0].specId" onchange="specChange($(this))">
+		      		<td><select id="firstSpec" name="options[0].specId" onchange="specChange($(this))">
 		      			<c:forEach items="${specList}" var="spec">
 		      		 		<option value="${spec.id}">${spec.specName}</option>
 		      		 		</c:forEach>
@@ -120,7 +120,7 @@
 		
 		$('#specTable').append(`
 				<tr>
-	      		<td><select name="options[`+index+`].specId" onchange="specChange($(this))">
+	      		<td><select  name="options[`+index+`].specId" onchange="specChange($(this))">
 	      			<c:forEach items="${specList}" var="spec">
 	      		 		<option value="${spec.id}">${spec.specName}</option>
 	      		 		</c:forEach>
@@ -158,5 +158,8 @@
 			}
 		})
 	}
+
+	$("#firstSpec").trigger('change')
+	
 
 </script>

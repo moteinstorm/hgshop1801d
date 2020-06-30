@@ -31,7 +31,7 @@
 		      	<c:forEach items="${sku.options}" var="opt" varStatus="index">
 		      	<tr>
 		      		
-		      		<td><select  class="specSelect" name="options[${index.index}].specId" onchange="specChange($(this),${opt.id})">
+		      		<td><select  class="specSelect" name="options[${index.index}].specId" data-toggle="${opt.id}" onchange="specChange($(this),${opt.id})">
 		      			<c:forEach items="${specList}" var="spec">
 		      		 		<option value="${spec.id}" ${opt.specId==spec.id?'selected':''}>${spec.specName}</option>
 		      		 		</c:forEach>
@@ -173,10 +173,8 @@
 	
 	// 触发下拉框的事件
 	$(".specSelect").each(function(){
-		//FireEvent(this, 'change')
-		//
-		$(this).trigger('change')
-　　
+		var optId= $(this).attr('data-toggle')
+		specChange($(this),optId)
 	})
 	
 	
