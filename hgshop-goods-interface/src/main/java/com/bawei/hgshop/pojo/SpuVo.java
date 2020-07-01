@@ -21,6 +21,7 @@ public class SpuVo  extends Spu {
 	// 排序方式
 	String orderType = "ASC";
 	
+	
 	//排序的字段名称
 	String orderColumn="";
 

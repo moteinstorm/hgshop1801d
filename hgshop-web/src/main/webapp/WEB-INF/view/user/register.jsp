@@ -52,8 +52,8 @@
   </div>
 
   <div class="form-label-group">
-    <input type="password" id="inputPassword" class="form-control" name="password" placeholder="密码" required="">
-    <label for="inputPassword">密码</label>
+    <input type="password" id="password" class="form-control" name="password" placeholder="密码" required="">
+    <label for="password">密码</label>
   </div>
    <div class="form-label-group">
     <input type="password" id="repassword" class="form-control" name="repassword" placeholder="密码" required="">
@@ -69,6 +69,7 @@
  	$("#registerForm").validate({
  		submitHandler:function(form){
  			alert('提交方法被拦截了')
+ 			form.submit()
  		},
  		rules:{
  			username:{
@@ -78,7 +79,11 @@
  			},
  			password:{
  				minlength:4
+ 			},
+ 			repassword:{
+ 				equalTo:'#password'
  			}
+ 			
  		},
  		messages:{
  			username:{
@@ -88,6 +93,9 @@
  			},
  			password:{
  				minlength:'密码太短了'
+ 			},
+ 			repassword:{
+ 				equalTo:"两次输入的密码必须一致才可以啊"
  			}
  		}
  	})
