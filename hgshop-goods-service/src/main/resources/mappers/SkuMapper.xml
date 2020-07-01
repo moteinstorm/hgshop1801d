@@ -11,6 +11,11 @@
 		<collection property="options" column="id" select="com.bawei.hgshop.dao.SpecDao.listOptionByskuId"></collection>
 	</resultMap>
 	
+	<!-- 继承即可 要求能够获取规格名称和属性值的名称 -->
+	<resultMap type="sku" id="SkuMapDetail2" extends="SkuMap">
+		<collection property="options" column="id" select="com.bawei.hgshop.dao.SpecDao.listOptionByskuId2"></collection>
+	</resultMap>
+	
 
 <!-- 	int insert(Sku sku); -->
 	<insert id="insert" useGeneratedKeys="true" keyColumn="id" keyProperty="id">
@@ -61,6 +66,11 @@
 	<!-- Sku findById(int id); -->
 	<select id="findById" resultMap="SkuMapDetail">
 		SELECT * FROM hg_sku WHERE id=#{value}
+	</select>
+	
+	<!-- List<Sku> ListBySpuId(int spuId); -->
+	<select id="ListBySpuId" resultMap="SkuMapDetail2">
+		SELECT * FROM hg_sku WHERE spu_id=#{value}
 	</select>
 	
 	<!-- List<Sku> list(SkuVo skuvo);  greater than  ; less than  -->

@@ -59,7 +59,9 @@
 				<c:forEach items="${pageInfo.list}" var="spu">
 				<div class="col-md-3">
 				<div class="card" style="height: 240">
-				    <img src="/pic/${spu.smallPic}" width="180" height="120" class="card-img-top" alt="${spu.goodsName}">
+				   	<a href="./spu?spuId=${spu.id}" target="_blank">
+				    	<img src="/pic/${spu.smallPic}" width="180" height="120" class="card-img-top" alt="${spu.goodsName}">
+				 	 </a>
 				    <div class="card-body">
 				      <h5 class="card-title p1" >${spu.goodsName}</h5>
 				      <p class="card-text p3"><small class="text-muted">${spu.caption==null?'&nbsp;':spu.caption}</small></p>
@@ -77,9 +79,9 @@
 				</div>
 				</c:forEach>
 			</div>
-			<div class="row">
-				<nav aria-label="...">
-				  <ul class="pagination">
+			<div class="row" style="padding-top: 10px;padding-bottom: 10px">
+				<nav aria-label="..." class="justify-content-center">
+				  <ul class="pagination justify-content-center">
 				  	<c:choose>
 					  	<c:when test="${pageInfo.pageNum==1}">
 						    <li class="page-item disabled">
@@ -88,7 +90,7 @@
 					    </c:when>
 					    <c:otherwise>
 					    	<li class="page-item ">
-						      <a class="page-link"  href="./index" tabindex="-1">首页</a>
+						      <a class="page-link"  href="./index?categoryId=${spuVo.categoryId}&" tabindex="-1">首页</a>
 						    </li>
 					    </c:otherwise>
 				    </c:choose>
@@ -101,7 +103,7 @@
 				    	  </li>
 				    	</c:if>
 				    	<c:if test="${pageInfo.pageNum!=page}">
-				    		<li class="page-item"><a class="page-link" href="./index?pageNum=${page}">${page}</a></li>
+				    		<li class="page-item"><a class="page-link" href="./index?categoryId=${spuVo.categoryId}&pageNum=${page}">${page}</a></li>
 				    	</c:if>
 				    </c:forEach>
 				    <li class="page-item">
@@ -127,15 +129,10 @@ function initTree(){
 			  data: data,         // data is not optional
 			  levels: 2,
 			  onNodeSelected: function(event, data) {
-				  // 用于显示添加部分
-				 /*  $("#parentNodeName").val(data.text)
-				  $("#parentId").val(data.id);
-				  $("#name").val("")
-				  
-				  // 用于显示修改和删除的部分
-				  $("#currentName").val(data.text)
-				  $("#currentId").val(data.id);
-				  $("#butnDel").prop("disabled",data.nodes.length>0) */
+				//末级节点				
+				 if(data.nodes.length<1){
+					location.href="./index?categoryId="+data.id
+				}
 			  }
 			});
 	})

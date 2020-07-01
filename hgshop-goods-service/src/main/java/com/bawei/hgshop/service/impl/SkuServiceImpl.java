@@ -79,4 +79,10 @@ public class SkuServiceImpl implements SkuService {
 		return skuDao.findById(id);
 	}
 
+	@Override
+	public List<Sku> listDetailBySpu(int spuId) {
+		// TODO Auto-generated method stub
+		return skuDao.ListBySpuId(spuId);
+	}
+
 }

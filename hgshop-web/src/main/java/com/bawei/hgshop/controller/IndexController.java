@@ -10,9 +10,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.bawei.hgshop.pojo.Category;
+import com.bawei.hgshop.pojo.Sku;
 import com.bawei.hgshop.pojo.Spu;
 import com.bawei.hgshop.pojo.SpuVo;
 import com.bawei.hgshop.service.CategoryService;
+import com.bawei.hgshop.service.SkuService;
 import com.bawei.hgshop.service.SpuService;
 import com.github.pagehelper.PageInfo;
 
@@ -28,18 +30,35 @@ public class IndexController {
 	SpuService spuService;
 	
 	@Reference
+	SkuService skuService;
+	
+	@Reference
 	CategoryService catService;
 	
 	
 	@RequestMapping({"/","index"})
 	public String index(HttpServletRequest request,SpuVo spuVo) {
-		spuVo.setPageSize(16);
+		spuVo.setPageSize(3);
 		PageInfo<Spu> pageInfo = spuService.list(spuVo);
 		//pageInfo.getPageNum()
 		//pageInfo.getPages()
 		request.setAttribute("pageInfo", pageInfo);
-		
+		request.setAttribute("spuVo", spuVo);
 		return "index";
+	}
+	
+	@RequestMapping("spu")
+	public String spuDetail(HttpServletRequest request,int spuId) {
+		
+		// 获取spu 的信息
+		Spu spu = spuService.getById(spuId);
+		// 获取sku的列表
+		List<Sku> skuList = skuService.listDetailBySpu(spuId);
+		System.out.println("spu is " + spu);
+		System.out.println("sku is " + skuList);
+		request.setAttribute("spu", spu);
+		request.setAttribute("skuList", skuList);
+		return "spudetail";
 	}
 	
 	@RequestMapping("catData")
