@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.bawei.hgshop.dao.OrderDao">
+	
+	<!-- int inert(Orderz orderz); -->
+	<insert id="inert" useGeneratedKeys="true" keyColumn="oid" keyProperty="oid">
+		INSERT INTO hg_orders(uid,sumtotal,address,create_time)
+			VALUES(#{uid},#{sumtotal},#{address},NOW())
+	</insert>
+	<!-- int insertDetail(OrderDetail orderDetail); -->
+	<insert id="insertDetail">
+		INSERT INTO hg_orderdetail(skuid,total,oid,pnum)
+			VALUES(#{skuid},#{total},#{oid},#{pnum})
+	</insert>
+	
+	<!-- List<Orderz> list(int uid); -->
+	<select id="list" resultType="Orderz">
+		SELECT * FROM hg_orders 
+			WHERE uid=#{value} ORDER BY create_time desc
+	</select>
+	
+	<!-- List<OrderDetail> listDetail(int oid); -->
+	<select id="listDetail" resultType="OrderDetail">
+		SELECT * FROM hg_orderdetail 
+			WHERE oid=#{value} ORDER BY id desc
+	</select>
+	
+</mapper>

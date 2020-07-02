@@ -45,7 +45,30 @@
 </div>  
 <script>
 
-	
+	// 生成订单
+	function createOrder(){
+		
+		var ids=new Array();
+		$("[name=id]").each(function(){
+			ids.push($(this).val());
+		})
+		//
+		if(ids.length<1){
+			alert('请选择数据')
+			return;
+		}
+		// 生成订单
+		$.post('./createOrder',{cardIds:ids,address:$("#address").val()},function(data){
+			if(data.errorCode===0){
+				alert('购物成功，请及时支付')
+				//刷新
+			}else{
+				alert(data.errorInfo)
+			}
+			
+		})
+		
+	}
 	
 	//删除
 	function del(id){
@@ -59,7 +82,7 @@
 			if(data=='ok'){
 				alert('删除成功')
 				//刷新
-				
+				$("#workContent").load('./cartlist');
 			}else{
 				alert('删除失败')
 			}
@@ -67,13 +90,6 @@
 		})
 	}
 	
-
-	//查询
-	function query(page){
-		var query = $("#queryForm").serialize();
-		$("#workContent").load('./sku/list?pageNum='+page,query);
-				
-	}
 	
 
 </script>

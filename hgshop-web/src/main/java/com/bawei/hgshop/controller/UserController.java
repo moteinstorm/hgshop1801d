@@ -9,13 +9,17 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.bawei.hgshop.common.MsgData;
 import com.bawei.hgshop.pojo.Cart;
+import com.bawei.hgshop.pojo.OrderDetail;
+import com.bawei.hgshop.pojo.Orderz;
 import com.bawei.hgshop.pojo.User;
 import com.bawei.hgshop.service.CartService;
 import com.bawei.hgshop.service.UserService;
+import com.github.pagehelper.PageInfo;
 
 @Controller
 @RequestMapping("user")
@@ -76,7 +80,11 @@ public class UserController {
 		}	
 		
 		@RequestMapping("home")
-		public String home() {
+		public String home(HttpServletRequest request) {
+			User loginUser  = (User)request.getSession().getAttribute("USERSESSION");
+			if(loginUser==null) {
+				return "redirect:login";
+			}
 			return "user/home";
 		}
 		
@@ -103,6 +111,36 @@ public class UserController {
 		}
 		
 		/**
+		 *  订单的列表
+		 * @param request
+		 * @return
+		 */
+		@RequestMapping("orderlist")
+		public String orderlist(HttpServletRequest  request, int page) {
+			// 获取当前的用户
+			User loginUser  = (User)request.getSession().getAttribute("USERSESSION");
+			PageInfo<Orderz> pageInfo = userService.listOrderz(loginUser.getUid(), page);
+			request.setAttribute("pageInfo", pageInfo);
+			return "user/orderlist";
+		}
+		
+		/**
+		 *  订单的列表
+		 * @param request
+		 * oid 订单id
+		 * @return
+		 */
+		@RequestMapping("orderDetails")
+		public String orderDetail(HttpServletRequest  request, int oid) {
+			// 获取当前的用户
+			User loginUser  = (User)request.getSession().getAttribute("USERSESSION");
+			List<OrderDetail> orderDetails = userService.listOrderDetail(oid);
+			request.setAttribute("orderDetails", orderDetails);
+			return "user/detaillist";
+		}
+		
+		
+		/**
 		 * 进入购物车列表页面
 		 * @param request
 		 * @return
@@ -115,5 +153,21 @@ public class UserController {
 			List<Cart> list = cartService.list(loginUser.getUid());
 			request.setAttribute("cartList", list);
 			return "user/cartlist";
+		}
+		
+		@RequestMapping("createOrder")
+		@ResponseBody
+		public MsgData createOrder(HttpServletRequest  request,String address, @RequestParam("cardIds[]") int[] cartIds) {
+			
+			// 获取当前的用户
+			User loginUser  = (User)request.getSession().getAttribute("USERSESSION");
+			if(loginUser==null) {
+				return new MsgData(1,"对不起，您尚未登录");
+			}
+			
+			int result = cartService.createOrder(cartIds,address,loginUser.getUid());
+			return result>0?new MsgData("ok"):new  MsgData(2,"下单失败，请稍后再试");
+			
+						
 		}
 }

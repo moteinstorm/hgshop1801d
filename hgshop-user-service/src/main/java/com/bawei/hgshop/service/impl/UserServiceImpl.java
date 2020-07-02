@@ -1,12 +1,19 @@
 package com.bawei.hgshop.service.impl;
 
+import java.util.List;
+
 import org.apache.commons.codec.digest.DigestUtils;
 import org.apache.dubbo.config.annotation.Service;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import com.bawei.hgshop.dao.OrderDao;
 import com.bawei.hgshop.dao.UserDao;
+import com.bawei.hgshop.pojo.OrderDetail;
+import com.bawei.hgshop.pojo.Orderz;
 import com.bawei.hgshop.pojo.User;
 import com.bawei.hgshop.service.UserService;
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
 
 /**
  * 
@@ -18,6 +25,10 @@ public class UserServiceImpl  implements UserService{
 	
 	@Autowired
 	UserDao userDao;
+	
+	@Autowired
+	OrderDao orderDao;
+	
 
 	/**
 	 * 注册
@@ -57,6 +68,20 @@ public class UserServiceImpl  implements UserService{
 	public User getUserByName(String name) {
 		// TODO Auto-generated method stub
 		return userDao.findByName(name);
+	}
+
+	@Override
+	public PageInfo<Orderz> listOrderz(Integer uid, int page) {
+		// TODO Auto-generated method stub
+		PageHelper.startPage(page,5);
+		
+		return new PageInfo<Orderz>(orderDao.list(uid));
+	}
+
+	@Override
+	public List<OrderDetail> listOrderDetail(int oid) {
+		// TODO Auto-generated method stub
+		return orderDao.listDetail(oid);
 	}
 
 }
