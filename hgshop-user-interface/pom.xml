@@ -42,6 +42,11 @@
 			<groupId>org.springframework.data</groupId>
 			<artifactId>spring-data-elasticsearch</artifactId>
 		</dependency>
+		<dependency>
+			<groupId>com.bawei.hgshop</groupId>
+			<artifactId>hgshop-goods-interface</artifactId>
+			<version>0.0.1-SNAPSHOT</version>
+		</dependency>
   </dependencies>
   <!-- <结束拷贝的位置> -->
   

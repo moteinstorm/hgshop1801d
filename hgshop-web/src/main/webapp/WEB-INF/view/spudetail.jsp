@@ -106,7 +106,17 @@
 				alert("请输入合法的购买数量")
 				return
 			}
-			alert('将要加入购物车')
+			var buyNum= parseInt($("#buyNum").val());
+			
+			$.post('./user/addcart',{skuid:gSkuid,pnum:buyNum}
+				,function(data){
+					if(data.errorCode===0){
+						alert('恭喜，加入购物车成功')
+					}else{
+						alert(data.errorInfo)
+					}
+				}
+			)
 		}
 		
 		

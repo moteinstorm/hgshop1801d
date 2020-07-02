@@ -1,5 +1,7 @@
 package com.bawei.hgshop.controller;
 
+import java.util.List;
+
 import javax.servlet.http.HttpServletRequest;
 
 import org.apache.dubbo.config.annotation.Reference;
@@ -9,7 +11,10 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.bawei.hgshop.common.MsgData;
+import com.bawei.hgshop.pojo.Cart;
 import com.bawei.hgshop.pojo.User;
+import com.bawei.hgshop.service.CartService;
 import com.bawei.hgshop.service.UserService;
 
 @Controller
@@ -18,6 +23,9 @@ public class UserController {
 
 		@Reference
 		UserService userService;
+		
+		@Reference 
+		CartService cartService;
 	
 		/**
 		 * 去登陆页面
@@ -38,7 +46,7 @@ public class UserController {
 			
 			//登录成功
 			request.getSession().setAttribute("USERSESSION", loginUser);
-			return "user/home";
+			return "redirect:home";
 		}	
 		
 		@RequestMapping("checkExist")
@@ -70,5 +78,42 @@ public class UserController {
 		@RequestMapping("home")
 		public String home() {
 			return "user/home";
+		}
+		
+		/**
+		 * 加入购物车
+		 * @param request
+		 * @param cart
+		 * @return
+		 */
+		@RequestMapping("addcart")
+		@ResponseBody
+		public MsgData  addCart(HttpServletRequest request,Cart cart) {
+			
+			User loginUser  = (User)request.getSession().getAttribute("USERSESSION");
+			if(loginUser==null) {
+				return new MsgData(1,"对不起，您尚未登录");
+			}
+			//设置用户id
+			cart.setUid(loginUser.getUid());
+			int result = cartService.add(cart);
+			
+			return result>0? new MsgData("保存成功"): new MsgData(2, "加入失败，请稍后再试");
+			
+		}
+		
+		/**
+		 * 进入购物车列表页面
+		 * @param request
+		 * @return
+		 */
+		@RequestMapping("cartlist")
+		public String carlist(HttpServletRequest  request) {
+			// 获取当前的用户
+			User loginUser  = (User)request.getSession().getAttribute("USERSESSION");
+			//购物车列表
+			List<Cart> list = cartService.list(loginUser.getUid());
+			request.setAttribute("cartList", list);
+			return "user/cartlist";
 		}
 }
