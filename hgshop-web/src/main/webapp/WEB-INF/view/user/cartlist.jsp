@@ -49,7 +49,7 @@
 	function createOrder(){
 		
 		var ids=new Array();
-		$("[name=id]").each(function(){
+		$("[name=id]:checked").each(function(){
 			ids.push($(this).val());
 		})
 		//

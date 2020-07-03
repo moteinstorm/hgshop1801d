@@ -120,6 +120,7 @@ public class UserController {
 			// 获取当前的用户
 			User loginUser  = (User)request.getSession().getAttribute("USERSESSION");
 			PageInfo<Orderz> pageInfo = userService.listOrderz(loginUser.getUid(), page);
+			pageInfo.getList().forEach(x->{System.err.println("x is " + x);});
 			request.setAttribute("pageInfo", pageInfo);
 			return "user/orderlist";
 		}

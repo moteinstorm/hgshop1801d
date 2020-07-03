@@ -20,6 +20,16 @@ public class OrderDetail implements Serializable  {
 	private int oid;
 	private int pnum;
 	
+	private String skuName;
+	
+	
+	
+	public String getSkuName() {
+		return skuName;
+	}
+	public void setSkuName(String skuName) {
+		this.skuName = skuName;
+	}
 	public Integer getId() {
 		return id;
 	}
@@ -53,7 +63,7 @@ public class OrderDetail implements Serializable  {
 	@Override
 	public String toString() {
 		return "OrderDetail [id=" + id + ", skuid=" + skuid + ", total=" + total + ", oid=" + oid + ", pnum=" + pnum
-				+ "]";
+				+ ", skuName=" + skuName + "]";
 	}
 	
 	

@@ -2,6 +2,7 @@ package com.bawei.hgshop.pojo;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
+import java.util.Date;
 
 /**
  * 
@@ -19,7 +20,7 @@ public class Orderz  implements Serializable  {
 	private int uid                 ;
 	private BigDecimal sumtotal            ;
 	private String address             ;
-	private int createTime         ;
+	private Date createTime         ;
 	
 	
 	
@@ -47,10 +48,10 @@ public class Orderz  implements Serializable  {
 	public void setAddress(String address) {
 		this.address = address;
 	}
-	public int getCreateTime() {
+	public Date getCreateTime() {
 		return createTime;
 	}
-	public void setCreateTime(int createTime) {
+	public void setCreateTime(Date createTime) {
 		this.createTime = createTime;
 	}
 	@Override

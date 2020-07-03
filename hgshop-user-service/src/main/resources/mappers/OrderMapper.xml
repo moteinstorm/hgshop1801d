@@ -21,7 +21,8 @@
 	
 	<!-- List<OrderDetail> listDetail(int oid); -->
 	<select id="listDetail" resultType="OrderDetail">
-		SELECT * FROM hg_orderdetail 
+		SELECT d.* , k.title skuName FROM hg_orderdetail  d 
+		    LEFT JOIN hg_sku k ON k.id = d.skuid 
 			WHERE oid=#{value} ORDER BY id desc
 	</select>
 	

@@ -1,10 +1,15 @@
 package com.bawei.hgshop.controller;
 
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 import javax.servlet.http.HttpServletRequest;
 
 import org.apache.dubbo.config.annotation.Reference;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.redis.core.RedisKeyValueTemplate;
+import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.data.redis.core.ValueOperations;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -24,6 +29,7 @@ import com.github.pagehelper.PageInfo;
  *
  */
 @Controller
+
 public class IndexController {
 	
 	@Reference
@@ -35,16 +41,45 @@ public class IndexController {
 	@Reference
 	CategoryService catService;
 	
+	// duiredist 进行操练做
+	@Autowired
+	RedisTemplate<String, PageInfo<Spu>> redisTemplate;
+	
 	
 	@RequestMapping({"/","index"})
 	public String index(HttpServletRequest request,SpuVo spuVo) {
-		spuVo.setPageSize(3);
-		PageInfo<Spu> pageInfo = spuService.list(spuVo);
-		//pageInfo.getPageNum()
-		//pageInfo.getPages()
-		request.setAttribute("pageInfo", pageInfo);
+		
+		spuVo.setPageSize(12);
 		request.setAttribute("spuVo", spuVo);
-		return "index";
+		
+		System.out.println("");
+		
+		// 高频度访问 需要使用缓存
+		if(spuVo.getPageNum()==1 && spuVo.getCategoryId()==0 ) {
+			
+			// 判断缓存中是否存在
+			Boolean hasKey = redisTemplate.hasKey("firstPage");
+			ValueOperations<String, PageInfo<Spu>> opsForVal = redisTemplate.opsForValue();
+			if(hasKey) {
+				PageInfo<Spu> pageInfo = opsForVal.get("firstPage");
+				request.setAttribute("pageInfo", pageInfo);
+				return "index";
+			}else {
+				// 缓存中不存在，去数据库当中获取
+				PageInfo<Spu> pageInfo = spuService.list(spuVo);
+				//
+				opsForVal.set("firstPage", pageInfo, 3000,TimeUnit.SECONDS);
+				request.setAttribute("pageInfo", pageInfo);
+				return "index";
+			}
+			//低频 还是使用传统的方式
+		}else {
+			
+			PageInfo<Spu> pageInfo = spuService.list(spuVo);
+			request.setAttribute("pageInfo", pageInfo);
+			return "index";
+		}
+		
 	}
 	
 	@RequestMapping("spu")
