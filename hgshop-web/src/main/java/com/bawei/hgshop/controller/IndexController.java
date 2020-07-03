@@ -7,13 +7,13 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.apache.dubbo.config.annotation.Reference;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.redis.core.RedisKeyValueTemplate;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.core.ValueOperations;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.alibaba.fastjson.JSON;
 import com.bawei.hgshop.pojo.Category;
 import com.bawei.hgshop.pojo.Sku;
 import com.bawei.hgshop.pojo.Spu;
@@ -32,6 +32,7 @@ import com.github.pagehelper.PageInfo;
 
 public class IndexController {
 	
+	
 	@Reference
 	SpuService spuService;
 	
@@ -48,6 +49,9 @@ public class IndexController {
 	
 	@RequestMapping({"/","index"})
 	public String index(HttpServletRequest request,SpuVo spuVo) {
+	
+		JSON.toJSONString(spuVo);
+		
 		
 		spuVo.setPageSize(12);
 		request.setAttribute("spuVo", spuVo);
