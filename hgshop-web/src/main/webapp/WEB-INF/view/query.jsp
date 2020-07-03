@@ -48,12 +48,13 @@
 </nav>
 <div class="container-fluid">
   <div class="row">
-		<div class="col-md-3">
-			<div id="tree"></div>
-		</div>	
+		
 		<div class="col-md-9">
 			<div class="row">
-				<c:forEach items="${pageInfo.list}" var="spu">
+				本次搜索让您久等了${consumerTime}毫秒
+			</div>
+			<div class="row">
+				<c:forEach items="${page.content}" var="spu">
 				<div class="col-md-3">
 				<div class="card" style="height: 240">
 				   	<a href="./spu?spuId=${spu.id}" target="_blank">
@@ -63,11 +64,11 @@
 				      <h5 class="card-title p1" >${spu.goodsName}</h5>
 				      <p class="card-text p3"><small class="text-muted">${spu.caption==null?'&nbsp;':spu.caption}</small></p>
 				      <p class="card-text"><small class="text-muted">
-				      <c:if test="${spu.category!=null}">
-				      	分类:${spu.category.name}<br>
+				      <c:if test="${spu.categoryName!=null}">
+				      	分类:${spu.categoryName}<br>
 				      </c:if> 
-				       <c:if test="${spu.brand!=null}">
-				      	品牌：${spu.brand.name} 
+				       <c:if test="${spu.brandName!=null}">
+				      	品牌：${spu.brandName} 
 				      	</c:if>
 				      </small></p>
 				    </div>
@@ -118,25 +119,5 @@
 </nav>
 
 </body>
-<script type="text/javascript">
-function initTree(){
-	
-	$.post('./catData',{},function(data){
-		$('#tree').treeview({
-			  data: data,         // data is not optional
-			  levels: 2,
-			  onNodeSelected: function(event, data) {
-				//末级节点				
-				 if(data.nodes.length<1){
-					location.href="./index?categoryId="+data.id
-				}
-			  }
-			});
-	})
 
-}	
-
-	//初始化树状图
-	initTree();
-</script>
 </html>

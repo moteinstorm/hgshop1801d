@@ -1,5 +1,6 @@
 package com.bawei.hgshop.controller;
 
+import java.util.Date;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
@@ -7,6 +8,7 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.apache.dubbo.config.annotation.Reference;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.elasticsearch.core.aggregation.AggregatedPage;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.core.ValueOperations;
 import org.springframework.stereotype.Controller;
@@ -15,6 +17,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.alibaba.fastjson.JSON;
 import com.bawei.hgshop.pojo.Category;
+import com.bawei.hgshop.pojo.EsSpu;
 import com.bawei.hgshop.pojo.Sku;
 import com.bawei.hgshop.pojo.Spu;
 import com.bawei.hgshop.pojo.SpuVo;
@@ -41,6 +44,10 @@ public class IndexController {
 	
 	@Reference
 	CategoryService catService;
+	
+	
+	@Autowired
+	ElSearchUtil<EsSpu> esUtil;
 	
 	// duiredist 进行操练做
 	@Autowired
@@ -108,4 +115,25 @@ public class IndexController {
 		 return categories;
 		
 	}
+	
+	
+	@RequestMapping("query")
+	public String query(HttpServletRequest request,SpuVo spuVo ) {
+		
+		Date startTime = new Date();
+		
+		
+		AggregatedPage<EsSpu> page = esUtil.queryObjects(EsSpu.class, spuVo.getPageNum(), spuVo.getPageSize(), 
+				new String[] {"goodsName","caption","categoryName","brandName"}, spuVo.getKey());
+		
+		request.setAttribute("page", page);
+		request.setAttribute("spuVo", spuVo);
+		Date endTime = new Date();
+		long consumerTime  = endTime.getTime() - startTime.getTime();
+		
+		request.setAttribute("consumerTime", consumerTime);
+		
+		return "query";
+	}
+
 }

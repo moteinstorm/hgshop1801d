@@ -28,6 +28,10 @@ public class EsSpu {
 		brandName=spu.getBrand()==null?"":spu.getBrand().getName();
 	}
 	
+	public EsSpu() {
+		super();
+	}
+	
 	@Id
 	private Integer id;
 	private String goodsName;

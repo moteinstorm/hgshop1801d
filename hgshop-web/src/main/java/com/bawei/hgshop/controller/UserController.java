@@ -2,7 +2,9 @@ package com.bawei.hgshop.controller;
 
 import java.util.List;
 
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 import org.apache.dubbo.config.annotation.Reference;
 import org.springframework.stereotype.Controller;
@@ -18,6 +20,7 @@ import com.bawei.hgshop.pojo.OrderDetail;
 import com.bawei.hgshop.pojo.Orderz;
 import com.bawei.hgshop.pojo.User;
 import com.bawei.hgshop.service.CartService;
+import com.bawei.hgshop.service.SecuritService;
 import com.bawei.hgshop.service.UserService;
 import com.github.pagehelper.PageInfo;
 
@@ -30,6 +33,9 @@ public class UserController {
 		
 		@Reference 
 		CartService cartService;
+		
+		@Reference 
+		SecuritService ss;
 	
 		/**
 		 * 去登陆页面
@@ -170,5 +176,18 @@ public class UserController {
 			return result>0?new MsgData("ok"):new  MsgData(2,"下单失败，请稍后再试");
 			
 						
+		}
+		
+		@RequestMapping("getkey")
+		@ResponseBody
+		public MsgData getKey(HttpServletRequest request,HttpServletResponse resspones) {
+			String get16RandStr = ss.get16RandStr();
+			
+			//存入cookie
+			Cookie cookie = new Cookie("key", get16RandStr);
+			resspones.addCookie(cookie);
+			
+			return new MsgData(get16RandStr);
+			
 		}
 }
