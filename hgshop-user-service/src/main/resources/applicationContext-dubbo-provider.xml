@@ -1,7 +1,6 @@
 <beans xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xmlns:dubbo="http://dubbo.apache.org/schema/dubbo"
 	xmlns="http://www.springframework.org/schema/beans"
-	xmlns:aop="http://www.springframework.org/schema/aop"
 	xmlns:tx="http://www.springframework.org/schema/tx"
 	xmlns:p="http://www.springframework.org/schema/p"
 	xmlns:context="http://www.springframework.org/schema/context"
@@ -9,18 +8,17 @@
 	http://www.springframework.org/schema/beans/spring-beans.xsd
        http://dubbo.apache.org/schema/dubbo http://dubbo.apache.org/schema/dubbo/dubbo.xsd
        http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd
-       http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd
-       http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop.xsd">
+       http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd">
 
 	<!-- <context:property-placeholder location="classpath:hgshop.properties" /> -->
 	
 	<!-- 配置日志 -->
 	<bean id="logAdvidsert" class="com.bawei.hgshop.utils.HgLog">
     </bean>
-    <aop:config>
+   <!--  <aop:config>
           <aop:pointcut id="controlPointcut"  expression="execution(* com.bawei.hgshop.service.impl.*.*(..))"></aop:pointcut>
           <aop:advisor advice-ref="logAdvidsert" id="beforeAdvice" pointcut-ref="controlPointcut"/>
-    </aop:config>
+    </aop:config> -->
     
     <!-- <aop:config>
         <aop:aspect ref="controllerAspect">

@@ -30,6 +30,7 @@ public class SpuServiceImpl implements SpuService{
 	
 	@Override
 	public int add(Spu spu) {
+		
 		// TODO Auto-generated method stub
 		int r= spuDao.add(spu);
 		if(r>0) {
